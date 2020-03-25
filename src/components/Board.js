@@ -22,8 +22,8 @@ const makeBoard = (cells) => {
 }
 
 export default function Board ({ cells, pieceColor, pieceShape }) {
-  const board = makeBoard(cells);
-
+  
+  const [board, setBoard] = useState(makeBoard(cells));
   const [selectedPiece, setSelectedPiece] = useState(); // selectedPiece is string rep board arr indexes
   const [nextMoveLeft, setNextMoveLeft] = useState()
   const [nextMoveRight, setNextMoveRight] = useState()
@@ -34,6 +34,7 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
     if (board[selectedPiece[0]][selectedPiece[1]] === 'top') {
       // check bottom diagonals
       nextRow = +selectedPiece[0] + 1;
+      // sets to null invalid next move state
       if ((board[nextRow][currCol + 1] || board[nextRow][currCol + 1] === undefined) && nextMoveRight !== null) {
         setNextMoveRight(null)
       }
@@ -42,8 +43,9 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
       }
     }
     if (board[selectedPiece[0]][selectedPiece[1]] === 'bottom') {
-      nextRow = +selectedPiece[0] - 1;
       // check top diagonals
+      nextRow = +selectedPiece[0] - 1;
+      // sets to null invalid next move state
       if ((board[nextRow][currCol + 1] || board[nextRow][currCol + 1] === undefined) && nextMoveRight !== null) {
         setNextMoveRight(null)
       }
@@ -57,15 +59,19 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
     if (board[nextRow][currCol - 1] === null && `${nextRow}${currCol - 1}` !== nextMoveLeft) {
       setNextMoveLeft(`${nextRow}${currCol - 1}`);
     }
-    // else {
-    //   if (nextMoveRight) {
-    //     setNextMoveRight(null)
-    //   }
-    //   if (nextMoveLeft) {
-    //     setNextMoveRight(null)
-    //   }
-    // }
   }
+
+  const handleNextMove = (i, j) => {
+    if (nextMoveLeft === `${i}${j}` || nextMoveRight === `${i}${j}`) {
+      const newBoard = board.map(row => row.map(cell => cell));
+      newBoard[selectedPiece[0]][selectedPiece[1]] = null;   // prev position
+      newBoard[i][j] = board[selectedPiece[0]][selectedPiece[1]];   // next position
+      setSelectedPiece(null)
+      setNextMoveRight(null)
+      setNextMoveLeft(null)
+      setBoard(newBoard)
+    }
+  };
 
   const renderBoard = (board, pieceColor, pieceShape) => {
     return board.map((row, i) => <div className="row" key={i}>
@@ -78,6 +84,7 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
                     ${(i + j) % 2 === 0 ? 'black-cell' : 'white-cell'}
                     ${(nextMoveLeft === `${i}${j}` || nextMoveRight === `${i}${j}`) && 'next-move'}
                   `} 
+                  onClick={() => handleNextMove(i, j)}
                   key={`${i}${j}`} 
                 >
                   <div className={`red-piece 
@@ -96,6 +103,7 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
                     ${(i + j) % 2 === 0 ? 'black-cell' : 'white-cell'}
                     ${(nextMoveLeft === `${i}${j}` || nextMoveRight === `${i}${j}`) && 'next-move'}
                   `} 
+                  onClick={() => handleNextMove(i, j)}
                   key={`${i}${j}`} 
                 >
                   <div 
@@ -114,6 +122,7 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
                   ${(i + j) % 2 === 0 ? 'black-cell' : 'white-cell'}
                   ${(nextMoveLeft === `${i}${j}` || nextMoveRight === `${i}${j}`) && 'next-move'}
                 `} 
+                onClick={() => handleNextMove(i, j)}
                 key={`${i}${j}`}
               >
               </div>
