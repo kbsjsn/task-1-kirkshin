@@ -6,3 +6,7 @@
 .textfield {
   width: 50px;
 }
+
+.inputbar button {
+  width: 100px;
+}

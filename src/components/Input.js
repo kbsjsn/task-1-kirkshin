@@ -1,13 +1,14 @@
 import React from 'react';
 import './Input.css';
+import { makeBoard } from '../utils';
 
-export default function Input ({ setCells, setPieceColor, setPieceShape }) {
+export default function Input ({ cells, setCells, setPieceColor, setPieceShape, setBoard }) {
 
   return (
     <div className="inputbar">
       <input onChange={e => setCells(e.target.value)} className="textfield"/>
       <div>
-        Top Piece Color:
+        <b>Top Piece Color:</b>
         <input type="radio" id="red-piece" name="color" value="red" 
           defaultChecked
           onChange={e => setPieceColor(e.target.value)}
@@ -19,7 +20,7 @@ export default function Input ({ setCells, setPieceColor, setPieceShape }) {
         <label htmlFor="black-piece">Black</label>
       </div>
       <div>
-        Shape:
+        <b>Shape:</b>
         <input type="radio" id="circle-piece" name="shape" value="circle"
           onChange={e => setPieceShape(e.target.value)}
           defaultChecked
@@ -30,6 +31,8 @@ export default function Input ({ setCells, setPieceColor, setPieceShape }) {
         />
         <label htmlFor="square-piece">Square</label>
       </div>
+      <button>Save Game</button>
+      <button onClick={() => setBoard(makeBoard(cells))}>Reset Game</button>
     </div>
   )
 }

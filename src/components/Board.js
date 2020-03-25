@@ -1,29 +1,8 @@
 import React, { useState } from 'react';
 import './Board.css';
 
-const makeBoard = (cells) => {
-  const board = [];
-  for (let i = 0; i < cells; i++) {
-    const row = [];
-    for (let j = 0; j < cells; j++) {
-      if (i < 2) { 
-        row.push('top')
-      }
-      else if (i >= cells - 2) {
-        row.push('bottom')
-      }
-      else {
-        row.push(null)
-      }
-    }
-    board.push(row)
-  }
-  return board
-}
-
-export default function Board ({ cells, pieceColor, pieceShape }) {
+export default function Board ({ cells, board, setBoard, pieceColor, pieceShape }) {
   
-  const [board, setBoard] = useState(makeBoard(cells));
   const [selectedPiece, setSelectedPiece] = useState(); // selectedPiece is string rep board arr indexes
   const [nextMoveLeft, setNextMoveLeft] = useState();
   const [nextMoveRight, setNextMoveRight] = useState();
