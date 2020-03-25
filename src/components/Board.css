@@ -27,6 +27,10 @@
   height: 40px;
 }
 
+.next-move {
+  background-color: lightblue;
+}
+
 .red-piece {
   background-color: red;
   border-radius: 100%;
