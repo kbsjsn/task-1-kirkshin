@@ -41,3 +41,11 @@
   width: 20px;
   height: 20px;
 }
+
+.circle {
+  border-radius: 100%;
+}
+
+.square {
+  border-radius: 0%;
+}

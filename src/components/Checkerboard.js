@@ -4,11 +4,21 @@ import Board from './Board';
 
 export default function Checkboard () {
   const [cells, setCells] = useState(8);
+  const [pieceColor, setPieceColor] = useState('red');
+  const [pieceShape, setPieceShape] = useState('circle')
 
   return (
     <>
-      <Input setCells={setCells} />
-      <Board cells={cells} />
+      <Input 
+        setCells={setCells} 
+        setPieceColor={setPieceColor} 
+        setPieceShape={setPieceShape}
+      />
+      <Board 
+        cells={cells} 
+        pieceColor={pieceColor}
+        pieceShape={pieceShape}
+      />
     </>
   )
 }

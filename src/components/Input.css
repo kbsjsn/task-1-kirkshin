@@ -1,0 +1,8 @@
+.inputbar {
+  display: flex;
+  flex-direction: column;
+}
+
+.textfield {
+  width: 50px;
+}
