@@ -10,13 +10,34 @@
 }
 
 .black-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: black;
   width: 40px;
   height: 40px;
 }
 
 .white-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   width: 40px;
   height: 40px;
+}
+
+.red-piece {
+  background-color: red;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+}
+
+.black-piece {
+  background-color: black;
+  border: 1px gray solid;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
 }
