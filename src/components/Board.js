@@ -25,12 +25,13 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
   
   const [board, setBoard] = useState(makeBoard(cells));
   const [selectedPiece, setSelectedPiece] = useState(); // selectedPiece is string rep board arr indexes
-  const [nextMoveLeft, setNextMoveLeft] = useState()
-  const [nextMoveRight, setNextMoveRight] = useState()
+  const [nextMoveLeft, setNextMoveLeft] = useState();
+  const [nextMoveRight, setNextMoveRight] = useState();
+  const [turn, setTurn] = useState('top');
 
   if (selectedPiece) {
     let nextRow;
-    const currCol = +selectedPiece[1]
+    const currCol = +selectedPiece[1];
     if (board[selectedPiece[0]][selectedPiece[1]] === 'top') {
       // check bottom diagonals
       nextRow = +selectedPiece[0] + 1;
@@ -61,6 +62,7 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
     }
   }
 
+  // will be called onClick in the next valid cell
   const handleNextMove = (i, j) => {
     if (nextMoveLeft === `${i}${j}` || nextMoveRight === `${i}${j}`) {
       const newBoard = board.map(row => row.map(cell => cell));
@@ -69,11 +71,12 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
       setSelectedPiece(null)
       setNextMoveRight(null)
       setNextMoveLeft(null)
+      setTurn(turn === 'top' ? 'bottom' : 'top');
       setBoard(newBoard)
     }
   };
 
-  const renderBoard = (board, pieceColor, pieceShape) => {
+  const renderBoardFromModel = (board, pieceColor, pieceShape) => {
     return board.map((row, i) => <div className="row" key={i}>
       {
         row.map((cell, j) => {
@@ -91,7 +94,12 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
                       ${pieceShape === 'circle' ? 'circle' : 'square'}
                       ${selectedPiece === `${i}${j}` && 'selected-piece'}
                     `} 
-                    onClick={() => setSelectedPiece(`${i}${j}`)}
+                    onClick={() => {
+                        if (board[i][j] === turn) {
+                          setSelectedPiece(`${i}${j}`)
+                        }
+                      }
+                    }
                   ></div>
                 </div>
               )
@@ -111,7 +119,12 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
                       ${pieceShape === 'circle' ? 'circle' : 'square'}
                       ${selectedPiece === `${i}${j}` && 'selected-piece'}
                     `} 
-                    onClick={() => setSelectedPiece(`${i}${j}`)}
+                    onClick={() => {
+                        if (board[i][j] === turn) {
+                          setSelectedPiece(`${i}${j}`)
+                        }
+                      }
+                    }
                   ></div>
                 </div>
               )
@@ -134,10 +147,11 @@ export default function Board ({ cells, pieceColor, pieceShape }) {
     )
   }
 
+  // rendering Board component
   return (
     <div className="board">
       {
-        renderBoard(board, pieceColor, pieceShape)
+        renderBoardFromModel(board, pieceColor, pieceShape)
       }
     </div>
   )
