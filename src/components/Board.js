@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Board.css';
 
-export default function Board ({ cells, board, setBoard, pieceColor, pieceShape }) {
+export default function Board ({ board, setBoard, pieceColor, pieceShape }) {
   
   const [selectedPiece, setSelectedPiece] = useState(); // selectedPiece is string rep board arr indexes
   const [nextMoveLeft, setNextMoveLeft] = useState();

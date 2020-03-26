@@ -2,7 +2,12 @@ import React from 'react';
 import './Input.css';
 import { makeBoard } from '../utils';
 
-export default function Input ({ cells, setCells, setPieceColor, setPieceShape, setBoard }) {
+const saveGame = (board, cells) => {
+  window.localStorage.setItem('myGameBoard', board)
+  window.localStorage.setItem('myGameCells', cells)
+}
+
+export default function Input ({ cells, board, setCells, setPieceColor, setPieceShape, setBoard }) {
 
   return (
     <div className="inputbar">
@@ -31,8 +36,14 @@ export default function Input ({ cells, setCells, setPieceColor, setPieceShape, 
         />
         <label htmlFor="square-piece">Square</label>
       </div>
-      <button>Save Game</button>
-      <button onClick={() => setBoard(makeBoard(cells))}>Reset Game</button>
+      <button onClick={() => saveGame(board, cells)}>Save Game</button>
+      <button onClick={() => { 
+            window.localStorage.removeItem('myGameBoard', board)
+            window.localStorage.removeItem('myGameCells', cells)
+            setBoard(makeBoard(cells))  
+          }
+        }
+      >Reset Game</button>
     </div>
   )
 }
